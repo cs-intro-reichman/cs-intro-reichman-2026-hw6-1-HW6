@@ -105,6 +105,7 @@ public class Runigram {
 
 		Color newpixel = new Color(gray, gray, gray);
 			return newpixel;
+		
 	}
 	
 	/**
