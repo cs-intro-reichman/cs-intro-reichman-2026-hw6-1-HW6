@@ -10,6 +10,7 @@ public class Editor4 {
       int number = Integer.parseInt(var0[1]);
       Color[][] source = Runigram.read(filename);
       Color[][] grayscaledsource = Runigram.grayScaled(source);
+      Runigram.setCanvas(source);
       Runigram.morph(source, grayscaledsource, number);
    }
 }
