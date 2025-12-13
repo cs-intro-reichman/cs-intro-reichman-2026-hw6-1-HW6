@@ -14,11 +14,17 @@ public class Runigram {
 		// Creates an image which will be the result of various 
 		// image processing operations:
 		Color[][] image;
-
+		/*image = grayScaled(tinypic);
+		System.out.println();
+		print(image);*/
 		// Tests the horizontal flipping of an image:
-		image = flippedHorizontally(tinypic);
+		/*image = flippedHorizontally(tinypic);
+		System.out.println();
+		print(image);*/		
+		image = scaled(tinypic,3,5);
 		System.out.println();
 		print(image);
+		
 		
 		//// Write here whatever code you need in order to test your work.
 		//// You can continue using the image array.
@@ -35,12 +41,16 @@ public class Runigram {
 		in.readInt();
 		// Creates the image array
 		Color[][] image = new Color[numRows][numCols];
-		// Reads the RGB values from the file into the image array. 
-		// For each pixel (i,j), reads 3 values from the file,
-		// creates from the 3 colors a new Color object, and 
-		// makes pixel (i,j) refer to that object.
-		//// Replace the following statement with your code.
-		return null;
+		for(int i=0;i<numRows;i++){
+			for(int j=0;j<numCols;j++){
+				int r = in.readInt();
+				int g = in.readInt();
+				int b = in.readInt();
+				Color pixel = new Color(r,g,b);
+				image[i][j] = pixel;
+			}
+		}
+		return image;
 	}
 
     // Prints the RGB values of a given color.
@@ -52,46 +62,62 @@ public class Runigram {
         System.out.print(")  ");
 	}
 
-	// Prints the pixels of the given image.
-	// Each pixel is printed as a triplet of (r,g,b) values.
-	// This function is used for debugging purposes.
-	// For example, to check that some image processing function works correctly,
-	// we can apply the function and then use this function to print the resulting image.
 	private static void print(Color[][] image) {
-		//// Replace this comment with your code
-		//// Notice that all you have to so is print every element (i,j) of the array using the print(Color) function.
+		for(int i=0;i<image.length;i++){
+			for(int j=0;j<image[0].length;j++){
+				print(image[i][j]);
+			}
+			System.out.println();
+		}
 	}
 	
 	/**
 	 * Returns an image which is the horizontally flipped version of the given image. 
 	 */
 	public static Color[][] flippedHorizontally(Color[][] image) {
-		//// Replace the following statement with your code
-		return null;
+	Color[][] flippedimage = new Color[image.length][image[0].length];
+	for(int i=0;i<image.length;i++){
+		for(int j=0;j<image[0].length;j++){
+			flippedimage[i][j] = image[i][image[0].length-1-j];
+		}
+	}
+		return flippedimage;
 	}
 	
 	/**
 	 * Returns an image which is the vertically flipped version of the given image. 
 	 */
 	public static Color[][] flippedVertically(Color[][] image){
-		//// Replace the following statement with your code
-		return null;
+	Color[][] verticallyflipped = new Color[image.length][image[0].length];
+	for(int i=0;i<image.length;i++){
+		for(int j=0;j<image[0].length;j++){
+			verticallyflipped[i][j] = image[image.length-1-i][j];
+		}
+	}
+		return verticallyflipped;
 	}
 	
 	// Computes the luminance of the RGB values of the given pixel, using the formula 
 	// lum = 0.299 * r + 0.587 * g + 0.114 * b, and returns a Color object consisting
 	// the three values r = lum, g = lum, b = lum.
 	private static Color luminance(Color pixel) {
-		//// Replace the following statement with your code
-		return null;
+		int gray = (int)(pixel.getRed() * 0.299 +pixel.getGreen() * 0.587 + pixel.getBlue() *0.114);
+
+		Color newpixel = new Color(gray, gray, gray);
+			return newpixel;
 	}
 	
 	/**
 	 * Returns an image which is the grayscaled version of the given image.
 	 */
 	public static Color[][] grayScaled(Color[][] image) {
-		//// Replace the following statement with your code
-		return null;
+		Color [][] grayimaged = new Color[image.length][image[0].length];
+		for(int i=0;i<image.length;i++){
+			for(int j=0;j<image[0].length;j++){
+				grayimaged[i][j] = luminance(image[i][j]);
+			}
+		}
+		return grayimaged;
 	}	
 	
 	/**
@@ -99,8 +125,19 @@ public class Runigram {
 	 * The image is scaled (resized) to have the given width and height.
 	 */
 	public static Color[][] scaled(Color[][] image, int width, int height) {
-		//// Replace the following statement with your code
-		return null;
+		Color [][] scaledimage = new Color[height][width];
+		int oldheight = image.length;
+		int oldwidth = image[0].length;
+		for(int i=0;i<scaledimage.length;i++){
+			for(int j=0;j<scaledimage[0].length;j++)
+			{
+				int i_src = (i * oldheight / height);
+				int j_src = (j * oldwidth / width);
+				scaledimage[i][j] = image[i_src][j_src];
+			}
+		}
+
+		return scaledimage;
 	}
 	
 	/**
@@ -121,8 +158,17 @@ public class Runigram {
 	 * The two images must have the same dimensions.
 	 */
 	public static Color[][] blend(Color[][] image1, Color[][] image2, double alpha) {
-		//// Replace the following statement with your code
-		return null;
+		Color [][] blended = new Color[image1.length][image1[0].length];
+		for(int i=0;i<image1.length;i++){
+			for(int j=0;j<image1[0].length;j++){
+				int r = (int)((image1[i][j].getRed() * alpha) + image2[i][j].getRed() *(1-alpha));
+				int b = (int)((image1[i][j].getBlue() * alpha) + image2[i][j].getBlue() *(1-alpha));
+				int g = (int)((image1[i][j].getGreen() * alpha) + image2[i][j].getGreen() *(1-alpha));
+
+				blended[i][j] = new Color(r,g,b);
+			}
+		}
+		return blended;
 	}
 
 	/**
@@ -132,7 +178,20 @@ public class Runigram {
 	 * of the source image.
 	 */
 	public static void morph(Color[][] source, Color[][] target, int n) {
-		//// Replace this comment with your code
+		int height = source.length;
+		int width = source[0].length;
+		if(target.length != source.length || target[0].length != source[0].length){
+   			 target = Runigram.scaled(target, source[0].length, source.length);
+				}
+		Color [][] morphed = new Color[width][height];
+		for(int i=0;i<n;i++){
+			double alpha = (double)(n-i)/n;
+		morphed = blend(source, target,alpha);
+		StdDraw.pause(500); 
+		Runigram.setCanvas(morphed);
+		Runigram.display(morphed);	
+
+		}
 	}
 	
 	/** Creates a canvas for the given image. */
